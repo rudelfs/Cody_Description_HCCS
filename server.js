@@ -1,12 +1,10 @@
-// server.js — CORS-enabled proxy to Cody AI
-// Install: npm init -y && npm install express
-// Requires Node 18+ for global fetch
-
+// server.js
 const express = require('express');
+const path    = require('path');
 const app     = express();
 const PORT    = process.env.PORT || 3000;
-const API_KEY = process.env.CODY_API_KEY;        // Your API key
-const BOT_NAME = process.env.CODY_BOT_NAME;      // e.g. "Creative Bot"
+const API_KEY = process.env.CODY_API_KEY;
+const BOT_NAME = process.env.CODY_BOT_NAME;
 let conversationId;
 
 if (!API_KEY) {
@@ -14,73 +12,28 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-app.use(express.json());
+// serve static files from /public
+app.use(express.static(path.join(__dirname, 'public')));
+
+// simple CORS for local‐dev if you still need it
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin',  '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
-// List Bots, pick by name or default to first
-// GET /bots — Get all bots :contentReference[oaicite:0]{index=0}
-async function fetchBotId() {
-  const res = await fetch('https://getcody.ai/api/v1/bots', {
-    headers: { 'Authorization': `Bearer ${API_KEY}` }
-  });
-  if (!res.ok) throw new Error(`Bots fetch failed: ${res.status}`);
-  const { data } = await res.json();
-  if (BOT_NAME) {
-    const bot = data.find(b => b.name === BOT_NAME);
-    if (!bot) throw new Error(`Bot named "${BOT_NAME}" not found`);
-    return bot.id;
-  }
-  return data[0].id;
-}
+app.use(express.json());
 
-// Create (or reuse) a single conversation
-// POST /conversations :contentReference[oaicite:1]{index=1}
-async function ensureConversation() {
-  if (conversationId) return conversationId;
-  const botId = await fetchBotId();
-  const res = await fetch('https://getcody.ai/api/v1/conversations', {
-    method: 'POST',
-    headers: {
-      'Content-Type':  'application/json',
-      'Authorization': `Bearer ${API_KEY}`
-    },
-    body: JSON.stringify({ name: 'WebProxyConv', bot_id: botId })
-  });
-  if (!res.ok) {
-    const txt = await res.text();
-    throw new Error(`Create convo failed: ${res.status} ${txt}`);
-  }
-  const { data } = await res.json();
-  conversationId = data.id;
-  return conversationId;
-}
-
-// Proxy endpoint for your front-end
-// POST /messages :contentReference[oaicite:2]{index=2}
+// proxy endpoint
 app.post('/api/generate', async (req, res) => {
   const { country, city, language, draft } = req.body;
   if (!draft) return res.status(400).json({ error: 'Draft is required' });
 
   try {
-    const convId = await ensureConversation();
-    const prompt = [
-      // system‐style instruction
-      `You are a professional travel copywriter. Write a single-paragraph Campspace listing in {language}, max 300 characters (including spaces). Make it SEO-optimized, easy to read, and free of AI clichés. Highlight the unique setting, key amenities, local attractions, sensory details, and host’s personal touch.
-.
-`,
-      // context
-      `Country: ${country}`,
-      `City: ${city}`,
-      ``,
-      `Draft: ${draft}`
-    ].join('\n');
+    // … your existing fetchBotId() & ensureConversation() logic …
+    const convId = await ensureConversation(); // from your original code
+    const prompt = [ /* … build your prompt … */ ].join('\n');
     
-    
-
     const msgRes = await fetch('https://getcody.ai/api/v1/messages', {
       method: 'POST',
       headers: {
@@ -91,17 +44,21 @@ app.post('/api/generate', async (req, res) => {
     });
     if (!msgRes.ok) {
       const errTxt = await msgRes.text();
-      console.error('Cody API error:', errTxt);
-      return res.status(msgRes.status).send(errTxt);
+      throw new Error(errTxt || msgRes.statusText);
     }
     const { data } = await msgRes.json();
-    return res.json({ content: data.content });
+    res.json({ content: data.content });
   } catch (err) {
     console.error('Proxy error:', err);
-    return res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
+// any other route → index.html (SPA support)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`🚀 Proxy listening on http://localhost:${PORT}`);
+  console.log(`🚀 Listening on port ${PORT}`);
 });

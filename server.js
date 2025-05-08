@@ -1,35 +1,35 @@
-const express = require('express');
-const path    = require('path');
-const fetch   = global.fetch;
-const app     = express();
-const PORT    = process.env.PORT || 3000;
-const API_KEY = process.env.CODY_API_KEY;
-const BOT_NAME = process.env.CODY_BOT_NAME;
-let conversationId;
+// server.js
+import express from 'express';
+import path    from 'path';
+
+const app  = express();
+const PORT = process.env.PORT || 3000;
+const API_KEY  = process.env.CODY_API_KEY;
+const BOT_NAME = process.env.CODY_BOT_NAME || '';
 
 if (!API_KEY) {
-  console.error('❌  Set CODY_API_KEY environment variable.');
+  console.error('❌  Set CODY_API_KEY in your Render ENV settings');
   process.exit(1);
 }
 
-// 1️⃣ Statische Dateien aus /public
-app.use(express.static(path.join(__dirname, 'public')));
+// 1️⃣ Serve static files from /public, including index.html at "/"
+app.use(express.static(path.join(process.cwd(), 'public')));
 
-// 2️⃣ JSON-Parsing
+// 2️⃣ JSON parsing + (optional) CORS
 app.use(express.json());
-
-// 3️⃣ Optional: CORS für Frontend
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin',  '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
-// 4️⃣ Hilfsfunktionen für Cody-Konversation
+// 3️⃣ Helpers to fetch bot ID and manage a single convo
+let conversationId;
 async function fetchBotId() {
   const res = await fetch('https://getcody.ai/api/v1/bots', {
-    headers: { Authorization: `Bearer ${API_KEY}` }
+    headers: { 'Authorization': `Bearer ${API_KEY}` }
   });
+  if (!res.ok) throw new Error(`fetch bots failed ${res.status}`);
   const { data } = await res.json();
   if (BOT_NAME) {
     const bot = data.find(b => b.name === BOT_NAME);
@@ -45,48 +45,59 @@ async function ensureConversation() {
     method: 'POST',
     headers: {
       'Content-Type':  'application/json',
-      Authorization:   `Bearer ${API_KEY}`
+      'Authorization': `Bearer ${API_KEY}`
     },
     body: JSON.stringify({ name: 'WebProxyConv', bot_id: botId })
   });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`create convo failed ${res.status}: ${txt}`);
+  }
   const { data } = await res.json();
   conversationId = data.id;
   return conversationId;
 }
 
-// 5️⃣ Proxy-Endpoint
+// 4️⃣ Your proxy endpoint
 app.post('/api/generate', async (req, res) => {
   const { country, city, language, draft } = req.body;
   if (!draft) return res.status(400).json({ error: 'Draft is required' });
   try {
     const convId = await ensureConversation();
     const prompt = [
-      `You are a professional travel copywriter...`,
+      `You are a professional travel copywriter. Write a single-paragraph Campspace listing in ${language}, max 300 characters. Make it SEO-optimized, easy to read, and free of AI clichés. Highlight setting, amenities, local attractions, sensory details, and host’s personal touch.`,
       `Country: ${country}`,
       `City: ${city}`,
+      ``,
       `Draft: ${draft}`
     ].join('\n');
+
     const msgRes = await fetch('https://getcody.ai/api/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type':  'application/json',
-        Authorization:   `Bearer ${API_KEY}`
+        'Authorization': `Bearer ${API_KEY}`
       },
-      body: JSON.stringify({ conversation_id: convId, content: prompt })
+      body: JSON.stringify({
+        conversation_id: convId,
+        content: prompt
+      })
     });
+
+    if (!msgRes.ok) {
+      const errText = await msgRes.text();
+      throw new Error(`Cody API error: ${msgRes.status} ${errText}`);
+    }
+
     const { data } = await msgRes.json();
-    return res.json({ content: data.content });
+    res.json({ content: data.content });
   } catch (err) {
-    console.error('Proxy error:', err);
-    return res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-// 6️⃣ Catch-all (Express 5+ benötigt '/*')
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
+// 5️⃣ Listen
 app.listen(PORT, () => {
-  console.log(`🚀 Listening on port ${PORT}`);
+  console.log(`🚀 Running on port ${PORT}`);
 });

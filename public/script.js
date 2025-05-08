@@ -44,52 +44,52 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2) Language placeholders
   const examples = {
     Nederlands: [
-      "Ontsnap naar ons prachtige boscamping, omgeven door hoge dennen…",
+      "Ontsnap naar ons prachtige boscamping…",
       "Ontspan aan de kust op onze knusse strandcamping…",
       "Geniet van een rustige achtertuinoase onder een sterrenhemel…",
       "Parkeer je camper op onze bergrandplek met uitzicht op de Alpen…",
-      "Sla je tent op op onze ruime campingplaats in glooiende heuvels…"
+      "Sla je tent op op onze ruime campingplaats…"
     ],
     Français: [
       "Évadez-vous dans notre magnifique camping forestier…",
       "Détendez-vous sur notre campsite en bord de mer…",
       "Profitez d’un havre de paix sous un ciel étoilé…",
       "Garez votre van au pied des montagnes…",
-      "Installez votre tente dans notre camping niché dans des collines…"
+      "Installez votre tente dans notre camping niché…"
     ],
     English: [
-      "Take refuge in our beautiful campspace, nestled in a serene forest…",
+      "Take refuge in our beautiful campspace…",
       "Unwind by the sparkling shore in our cozy beachfront campsite…",
       "Enjoy a tranquil backyard retreat under starlit skies…",
-      "Park your camper at our mountain-edge site with panoramic views…",
+      "Park your camper at our mountain-edge site…",
       "Set up camp at our spacious site amid rolling hills…"
     ],
     Deutsch: [
       "Finde Zuflucht in unserem wunderschönen Waldcamp…",
-      "Entspanne an unserem Küstencamp am Strand…",
-      "Genieße eine ruhige Hinterhof-Oase unter Sternenhimmel…",
+      "Entspanne an unserem Küstencamp…",
+      "Genieße eine ruhige Hinterhof-Oase…",
       "Stelle deinen Camper am Fuße der Berge ab…",
-      "Errichte dein Zelt auf unserem großzügigen Platz in Hügeln…"
+      "Errichte dein Zelt auf unserem großzügigen Platz…"
     ],
     Español: [
-      "Refúgiate en nuestro hermoso camping en el bosque…",
+      "Refúgiate en nuestro hermoso camping…",
       "Relájate en nuestra playa acogedora…",
       "Disfruta de un tranquilo refugio bajo un cielo estrellado…",
       "Aparca tu autocaravana con vistas panorámicas…",
       "Instala tu tienda entre suaves colinas…"
     ],
     Italiano: [
-      "Rifugiatevi nel nostro incantevole campeggio…",
+      "Rifugiatevi nel nostro campeggio…",
       "Rilassatevi sulla nostra spiaggia…",
       "Godetevi un'oasi tranquilla sotto un cielo stellato…",
       "Parcheggiate il vostro camper ai piedi delle montagne…",
       "Mettete la vostra tenda tra dolci colline…"
     ],
     Dansk: [
-      "Find tilflugt på vores smukke skovcamping…",
+      "Find tilflugt på vores skovcamping…",
       "Slap af på vores strandcamping…",
-      "Nyd en rolig baggårdsflugt under stjernehimmel…",
-      "Parkér din autocamper med panoramaudsigt over Alperne…",
+      "Nyd en baggårdsflugt under stjernehimmel…",
+      "Parkér din autocamper med panoramaudsigt…",
       "Slå dit telt op mellem bløde bakker…"
     ]
   };
@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.languages button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const list = examples[btn.textContent] || examples.English;
-      const sample = list[Math.floor(Math.random() * list.length)];
-      document.getElementById('description').placeholder = sample;
+      document.getElementById('description').placeholder =
+        list[Math.floor(Math.random() * list.length)];
     });
   });
 

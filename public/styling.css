@@ -79,8 +79,7 @@ form label, form p {
   display: block; font-weight: bold; margin-bottom: 6px; font-size: 1rem;
 }
 form small {
-  display: block; margin-bottom: 10px;
-  font-size: 0.9rem; color: #666;
+  display: block; margin-bottom: 10px; font-size: 0.9rem; color: #666;
 }
 form select, form input, form textarea {
   width: 100%; padding: 12px; border: 1px solid #ccc;
@@ -129,6 +128,10 @@ form textarea { min-height: 120px; resize: vertical; }
 ------------------------------------ */
 .checkbox-group {
   margin: 12px 0; text-align: left;
+}
+.checkbox-group label {
+  font-size: 0.9rem;
+  display: inline-flex; align-items: center;
 }
 .checkbox-group input[type="checkbox"] {
   margin-right: 6px;

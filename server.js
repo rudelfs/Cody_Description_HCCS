@@ -15,7 +15,7 @@ if (!API_KEY) {
 // serve static files from /public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// simple CORS for local‐dev if you still need it
+//  CORS for local‐dev
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin',  '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -30,7 +30,7 @@ app.post('/api/generate', async (req, res) => {
   if (!draft) return res.status(400).json({ error: 'Draft is required' });
 
   try {
-    // … your existing fetchBotId() & ensureConversation() logic …
+    // fetchBotId() & ensureConversation()
     const convId = await ensureConversation(); // from your original code
     const prompt = [ /* … build your prompt … */ ].join('\n');
     
@@ -54,10 +54,12 @@ app.post('/api/generate', async (req, res) => {
   }
 });
 
-// any other route → index.html (SPA support)
-app.get('*', (req, res) => {
+// → index.html
+// ✅ string wildcard
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Listening on port ${PORT}`);

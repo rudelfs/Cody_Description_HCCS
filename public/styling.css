@@ -160,3 +160,23 @@ form textarea { min-height: 120px; resize: vertical; }
   vertical-align: middle;
   margin-right: 6px;
 }
+
+/* make container a positioning context */
+.container {
+  position: relative;
+}
+
+/* the little note box */
+.note-window {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  max-width: 220px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

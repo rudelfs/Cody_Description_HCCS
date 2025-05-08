@@ -8,9 +8,9 @@
 </head>
 <body>
   <div class="container">
-    <!-- Rudi’s floating note: only on index -->
+    <!-- Rudi’s floating note -->
     <div class="note-window">
-      RUDIS NOTE: Prompt is still subject to change, press “Need help?” and select a language to generate a description.  
+      RUDI’S NOTE: Prompt is still subject to change, press “Open Description Assistant” and select a language to generate a description.<br>
       “Next step” just resets the page.
     </div>
 
@@ -65,57 +65,43 @@
 
       <div class="form-group">
         <label for="description">Add a description</label>
-        <small>Create a clear and inviting description highlighting your unique features and surroundings. Use friendly, engaging language to describe the layout, amenities, and local attractions. Emphasize special features and stay authentic.</small>
+        <small>Create a clear and inviting description highlighting your unique features and surroundings. Emphasize special features and stay authentic.</small>
         <textarea
           id="description"
           class="help-input"
-          placeholder="Take refuge in our beautiful campspace, nestled in a serene forest surrounded by towering pines…"
+          maxlength="650"
+          placeholder="Take refuge in our beautiful campspace…"
         ></textarea>
       </div>
 
-      <!-- HELP FOLD-OUT -->
-      <button type="button" id="help-toggle" class="help-toggle">Need help?</button>
+      <!-- Open Description Assistant -->
+      <button type="button" id="help-toggle" class="help-toggle">
+        Open Description Assistant
+      </button>
       <div id="help-content" class="help-content">
         <p class="help-text">
-          Too lazy to write the description? No worries! Enter a few keywords or a rough draft below. When you’re ready, click <strong>“Generate description”</strong> to get a polished, SEO-friendly text.
+          Too lazy to write the description? No worries! Enter a few keywords or a rough draft below.
         </p>
         <textarea id="help-input" class="help-input" placeholder="Enter keywords or draft here…"></textarea>
-        <button type="button" id="generate-btn" class="generate-btn">Generate description</button>
+
+        <!-- Add Tourist Information -->
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" id="tourist-info-checkbox">
+            Add Tourist Information about the Gegend
+          </label>
+        </div>
+
+        <button type="button" id="generate-btn" class="generate-btn">
+          Generate description
+        </button>
       </div>
-      <!-- /HELP FOLD-OUT -->
+      <!-- /Assistant -->
 
       <button type="submit" class="next-btn">Next step ›</button>
     </form>
   </div>
 
   <script src="script.js"></script>
-  <script>
-    // country dropdown
-    const countries = [
-      "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
-      "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
-      "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Côte d'Ivoire","Cabo Verde",
-      "Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo (Brazzaville)",
-      "Costa Rica","Croatia","Cuba","Cyprus","Czechia","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic",
-      "Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Federated States of Micronesia","Fiji",
-      "Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
-      "Haiti","Holy See","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy",
-      "Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya",
-      "Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius",
-      "Mexico","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand",
-      "Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine State","Panama","Papua New Guinea",
-      "Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines",
-      "Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands",
-      "Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Tajikistan","Tanzania","Thailand",
-      "Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom",
-      "United States of America","Uruguay","Uzbekistan","Vanuatu","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
-    ];
-    const select = document.getElementById('country');
-    countries.forEach(c => {
-      const o = document.createElement('option');
-      o.value = c; o.textContent = c;
-      select.appendChild(o);
-    });
-  </script>
 </body>
 </html>

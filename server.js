@@ -1,6 +1,6 @@
 const express = require('express');
 const path    = require('path');
-const fetch   = global.fetch || require('node-fetch');
+const fetch   = global.fetch;
 const app     = express();
 const PORT    = process.env.PORT || 3000;
 const API_KEY = process.env.CODY_API_KEY;

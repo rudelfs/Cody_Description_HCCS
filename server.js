@@ -8,14 +8,14 @@ const API_KEY  = process.env.CODY_API_KEY;
 const BOT_NAME = process.env.CODY_BOT_NAME || '';
 
 if (!API_KEY) {
-  console.error('❌  Set CODY_API_KEY in your Render ENV settings');
+  console.error('No API Key set');
   process.exit(1);
 }
 
-// 1️⃣ Serve static files from /public, including index.html at "/"
+// Serve static files from /public
 app.use(express.static(path.join(process.cwd(), 'public')));
 
-// 2️⃣ JSON parsing + (optional) CORS
+// JSON parsing + (optional) CORS
 app.use(express.json());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin',  '*');
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// 3️⃣ Helpers to fetch bot ID and manage a single convo
+// Helpers to fetch bot ID andsingle convo
 let conversationId;
 async function fetchBotId() {
   const res = await fetch('https://getcody.ai/api/v1/bots', {
@@ -58,7 +58,7 @@ async function ensureConversation() {
   return conversationId;
 }
 
-// 4️⃣ Your proxy endpoint
+// proxy
 app.post('/api/generate', async (req, res) => {
   const { country, city, language, draft } = req.body;
   if (!draft) return res.status(400).json({ error: 'Draft is required' });
@@ -97,7 +97,7 @@ app.post('/api/generate', async (req, res) => {
   }
 });
 
-// 5️⃣ Listen
+// listen to port
 app.listen(PORT, () => {
   console.log(`🚀 Running on port ${PORT}`);
 });

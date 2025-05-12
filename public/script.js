@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ country, city, language, draft, addTouristInfo })
+        body: JSON.stringify({ country, city, language, draft})
       });
       if (!res.ok) {
         const err = await res.text();

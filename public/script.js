@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4) Generate description
   const generateBtn     = document.getElementById('generate-btn');
   const originalBtnText = generateBtn.textContent;
-  const touristCheckbox = document.getElementById('tourist-info-checkbox');
 
   generateBtn.addEventListener('click', async () => {
     const country        = document.getElementById('country').value;
@@ -119,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const langBtn        = document.querySelector('.languages button.active');
     const language       = langBtn ? langBtn.textContent : 'English';
     const draft          = document.getElementById('help-input').value.trim();
-    const addTouristInfo = touristCheckbox.checked;
 
     if (!draft) {
       alert('Please enter some keywords or a draft.');

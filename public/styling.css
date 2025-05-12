@@ -106,9 +106,16 @@ form textarea { min-height: 120px; resize: vertical; }
    Assistant Fold-Out
 ------------------------------------ */
 .help-toggle {
-  margin-top: 20px; background: none; border: none;
-  color: #10b48c; font-size: 1rem; cursor: pointer; font-family: inherit;
+  margin-top: 20px;
+  margin-bottom: 16px;    /* ← add this */
+  background: none;
+  border: none;
+  color: #10b48c;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: inherit;
 }
+
 .help-toggle:hover { text-decoration: underline; }
 .help-content {
   display: none; text-align: left; margin-top: 20px;

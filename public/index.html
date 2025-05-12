@@ -10,7 +10,7 @@
   <div class="container">
     <!-- Rudi’s floating note -->
     <div class="note-window">
-      RUDI’S NOTE: Prompt is still subject to change, press “Open Description Assistant” and select a language to generate a description.<br>
+      RUDI’S NOTE: Prompt is still subject to change, press “Open Description Assistant” when you need inspiration.<br>
       “Next step” just resets the page.
     </div>
 
@@ -63,32 +63,34 @@
         </div>
       </div>
 
+      <!-- Description Section with Assistant Toggle -->
       <div class="form-group">
         <label for="description">Add a description</label>
         <small>Create a clear and inviting description highlighting your unique features and surroundings. Emphasize special features and stay authentic.</small>
+        <!-- Toggle Button for Assistant -->
+        <button type="button" id="help-toggle" class="help-toggle">
+          Need help? Open Description Assistant
+        </button>
+        <!-- Assistant Panel (hidden by default) -->
+        <div id="help-content" class="help-content" style="display:none">
+          <p class="help-text">
+            Need inspiration? Enter a few keywords and our AI tool will provide you with a proposal.
+          </p>
+          <textarea id="help-input" class="help-input" placeholder="Forest nearby, beautiful, sanitation available..."></textarea>
+          <button type="button" id="generate-btn" class="generate-btn">
+            Generate description
+          </button>
+        </div>
+        <!-- Main Description Textarea -->
         <textarea
           id="description"
           class="help-input"
+          minlength="100"
           maxlength="650"
+          required
           placeholder="Take refuge in our beautiful campspace…"
         ></textarea>
       </div>
-
-      <!-- Open Description Assistant -->
-      <button type="button" id="help-toggle" class="help-toggle">
-        Open Description Assistant
-      </button>
-      <div id="help-content" class="help-content">
-        <p class="help-text">
-          Need inspiration to write your description? No worries! Enter a few keywords and our AI tool will provide you with a proposal. When you’re ready, click “Generate description” to get a polished and friendly text.
-        </p>
-        <textarea id="help-input" class="help-input" placeholder="Enter keywords or draft here…"></textarea>
-
-        <button type="button" id="generate-btn" class="generate-btn">
-          Generate description
-        </button>
-      </div>
-      <!-- /Assistant -->
 
       <button type="submit" class="next-btn">Next step ›</button>
     </form>

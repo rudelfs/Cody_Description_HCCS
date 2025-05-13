@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1) Country dropdown
+  // countries
   const countries = [
    "Netherlands","France","Germany","Belgium","Luxembourg","Italy",
    "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda",
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     select.appendChild(o);
   });
 
-  // 2) Language placeholders
+  // language placeholders
   const examples = {
     Nederlands: [
       "Ontsnap naar ons prachtige boscamping…",
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3) Toggle assistant
+  // activate assistant
   const helpToggle  = document.getElementById('help-toggle');
   const helpContent = document.getElementById('help-content');
   helpToggle.addEventListener('click', () => {
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     helpToggle.textContent  = open ? 'Open Description Assistant' : 'Hide Description Assistant';
   });
 
-  // 4) Generate description
+  // generate description (THIS IS IMPORTANT)
   const generateBtn     = document.getElementById('generate-btn');
   const originalBtnText = generateBtn.textContent;
 
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('description').value = content;
     } catch (err) {
       console.error(err);
-      alert('Error generating description. Check console.');
+      alert('Error generating description :( Check console.');
     } finally {
       generateBtn.disabled    = false;
       generateBtn.textContent = originalBtnText;

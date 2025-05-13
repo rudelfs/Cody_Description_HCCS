@@ -65,7 +65,7 @@ app.post('/api/generate', async (req, res) => {
   try {
     const convId = await ensureConversation();
     const prompt = [
-      `You are a professional travel copywriter. Write a single-paragraph Campspace listing in ${language}, max 650 characters, at least 100 characters. Make it SEO-optimized, easy to read, and free of AI clichés. Highlight setting, amenities, local attractions, sensory details. Add a little bit of information based on the city the campspace is located in. MAX 650 CHARACTERS! DO NOT ADD INFORMATION ABOUT THE HOST, DO NOT MAKE THE LANGUAGE COMPLICATED, IT SHOULD BE EASY TO READ, MAX 650 CHARACTERS:`,
+      `You are a professional travel copywriter. Write a single-paragraph Campspace listing in ${language}, max 650 characters, at least 100 characters. Make it SEO-optimized, easy to read, and free of AI clichés. Highlight setting, amenities, local attractions, sensory details. Add a little bit of information based on the city the campspace is located in. MAX 650 CHARACTERS! DO NOT ADD INFORMATION ABOUT THE HOST, DO NOT MAKE THE LANGUAGE COMPLICATED, IT SHOULD BE EASY TO READ, MAX 650 CHARACTERS. Never mention the local culture or the how the host is. Use simple language, avoid complicated words and sentence structures.`,
       `Country: ${country}`,
       `City: ${city}`,
       ``,

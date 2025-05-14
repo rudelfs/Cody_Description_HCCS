@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
   helpToggle.addEventListener('click', () => {
     const open = helpContent.style.display === 'block';
     helpContent.style.display = open ? 'none' : 'block';
-    helpToggle.textContent  = open ? 'Open Description Assistant' : 'Hide Description Assistant';
+    helpToggle.textContent  = open ? 'Need help? Open Description Assistant' : 'Hide Description Assistant';
   });
 
   // generate description (THIS IS IMPORTANT)

@@ -65,7 +65,31 @@ app.post('/api/generate', async (req, res) => {
   try {
     const convId = await ensureConversation();
     const prompt = [
-      `You are a professional travel copywriter. Write a single-paragraph Campspace listing in ${language}, max 650 characters, at least 100 characters. Make it SEO-optimized, easy to read, and free of AI clichés. Highlight setting, amenities, local attractions, sensory details. Add a little bit of information based on the city the campspace is located in. MAX 650 CHARACTERS! DO NOT ADD INFORMATION ABOUT THE HOST, DO NOT MAKE THE LANGUAGE COMPLICATED, IT SHOULD BE EASY TO READ, MAX 650 CHARACTERS. Never mention the local culture or the how the host is. Use simple language, avoid complicated words and sentence structures.`,
+    `You are a professional travel copywriter.
+
+    Write a Campspace listing description in ${language}.
+
+    The text must be between 100 and 650 characters, with 650 characters MAX.
+
+    It must be SEO-optimized, easy to read, and free of AI clichés.
+
+    Highlight the setting, amenities, local attractions, and include sensory details.
+
+    Add a little bit of information based on the city where the Campspace is located.
+
+    Do NOT mention the host, their personality, or anything about the local culture.
+
+    Do NOT mention features of the campspace (f.E Fireplace, toilets) that are not mentioned by the draft.
+
+    Use simple language, short sentences, and avoid complicated words or structures.
+
+    No profanities, sexual terms, or inappropriate content.
+
+    Filter out personal information: phone numbers, adresses, e-mails etc.
+
+    Write the entire text in ${language} – do not use English in non-English texts.
+    
+    Write the Description of the campspace itself in one paragraph and add tourist information (what is near the campspace, activities) in a second shorter paragraph`,
       `Country: ${country}`,
       `City: ${city}`,
       ``,
